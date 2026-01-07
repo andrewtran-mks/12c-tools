@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}IVS Tool{% endblock %}
+
+{% block head %}
+<style>
+    .ivs-container {
+        max-width: 700px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Tabs */
+    .tab {
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            .tab button.active {
+                background-color: #bab0df;
+                color: #fff;
+                border-radius: 4px 4px 0 0;
+            }
+
+    .tabcontent {
+        display: none;
+    }
+
+    /* Form styling */
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 10px;
+        font-weight: 500;
+    }
+
+    input {
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button[type="submit"] {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ivs-container">
+    <h1 class="text-center header-container mb-4">
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Company Logo" class="header-logo img-exsmall" />
+        Integration Verification Sheet Generator
+    </h1>
+
+    <!-- Tabs -->
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'FormTab')" id="defaultOpen">Form</button>
+        <button class="tablinks" onclick="openTab(event, 'NewTab')">New Tab</button>
+    </div>
+
+    <!-- Tab 1: Form -->
+    <div id="FormTab" class="tabcontent">
+        {% if missing_ho or missing_zo %}
+        <div class="alert alert-danger">
+            <p><strong>Auto-retrieval failed for the following fiber numbers:</strong></p>
+            <ul>
+                {% if missing_ho %}
+                <li>HO (Box {{ optical_box_ho }})</li>
+                {% endif %}
+                {% if missing_zo %}
+                <li>ZO (Box {{ optical_box_zo }})</li>
+                {% endif %}
+            </ul>
+            <p>Please enter the missing fiber numbers manually below.</p>
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('ivs.ivs_generate') }}" method="POST">
+            <label for="user_pin">User Initials:</label>
+            <input type="text" id="user_pin" name="user_pin" value="{{ user_pin or '' }}" required>
+
+            <label for="p_number">P Number:</label>
+            <input type="text" id="p_number" name="p_number" value="{{ p_number or '' }}" required>
+
+            <label for="fiber_bundle">Fiber Bundle:</label>
+            <input type="text" id="fiber_bundle" name="fiber_bundle" value="{{ fiber_bundle or '' }}" required>
+
+            <label for="optical_box_ho">HO Box Serial Number:</label>
+            <input type="text" id="optical_box_ho" name="optical_box_ho" value="{{ optical_box_ho or '' }}" required>
+
+            <label for="optical_box_zo">ZO Box Serial Number:</label>
+            <input type="text" id="optical_box_zo" name="optical_box_zo" value="{{ optical_box_zo or '' }}" required>
+
+            {% if missing_ho %}
+            <label for="manual_ho_fiber">Manual HO Fiber Number:</label>
+            <input type="text" id="manual_ho_fiber" name="manual_ho_fiber" required>
+            {% endif %}
+
+            {% if missing_zo %}
+            <label for="manual_zo_fiber">Manual ZO Fiber Number:</label>
+            <input type="text" id="manual_zo_fiber" name="manual_zo_fiber" required>
+            {% endif %}
+
+            <button type="submit">Generate Verification Sheet</button>
+        </form>
+    </div>
+
+    <!-- Tab 2: New Tab -->
+    <div id="NewTab" class="tabcontent">
+        <h2>Welcome to the New Tab</h2>
+        <p>This area can be used for extra tools, logs, or anything else you want to add.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function openTab(evt, tabName) {
+        let i, tabcontent, tablinks;
+
+        // Hide all tab contents
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Remove "active" from all tab buttons
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the selected tab and set it as active
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Open default tab on page load
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("defaultOpen").click();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}RMA Folder Creation Tool{% endblock %}
+
+{% block head %}
+<style>
+    .img-thumbnail-sm {
+        width: 180px;
+        height: auto;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center header-container mb-4">
+        <img src="/static/image/logo.png" alt="Company Logo" class="header-logo img-exsmall">
+        RMA Folder Creation Tool
+    </h1>
+
+    <!-- Nav Tabs -->
+    <ul class="nav nav-tabs mb-4" id="rmaTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="form-tab" data-toggle="tab" href="#formTab" role="tab" aria-controls="formTab" aria-selected="true">Folder Form</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="other-tab" data-toggle="tab" href="#otherTab" role="tab" aria-controls="otherTab" aria-selected="false">Quote Form</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="rmaTabContent">
+        <!-- RMA Folder Form -->
+        <div class="tab-pane fade show active" id="formTab" role="tabpanel" aria-labelledby="form-tab">
+            <form action="/rma" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Sales Order Number -->
+                        <div class="form-group-body mb-3">
+                            <label for="rma_number"><em>Sales Order Number (RMA Number):</em></label>
+                            <img src="/static/image/Sale_Order_Number.jpg"
+                                 alt="Sale Order Example"
+                                 class="img-thumbnail-sm js-zoom"
+                                 data-img-src="/static/image/Sale_Order_Number.jpg" />
+                            <input type="text" id="rma_number" name="rma_number" class="form-control">
+                        </div>
+
+                        <!-- Material Notification -->
+                        <div class="form-group-body mb-3">
+                            <label for="material_notification"><em>Material Notification (MN):</em></label>
+                            <img src="/static/image/Material_Notification.jpg"
+                                 alt="Material Notification Example"
+                                 class="img-thumbnail-sm js-zoom"
+                                 data-img-src="/static/image/Material_Notification.jpg" />
+                            <input type="text" id="material_notification" name="material_notification" class="form-control">
+                        </div>
+
+                        <!-- Service Order Number -->
+                        <div class="form-group-body mb-3">
+                            <label for="service_order_number"><em>Service Order Number (SON):</em></label>
+                            <img src="/static/image/Sale_Order_Number.jpg"
+                                 alt="Sale Order Example"
+                                 class="img-thumbnail-sm js-zoom"
+                                 data-img-src="/static/image/Sale_Order_Number.jpg" />
+                            <input type="text" id="service_order_number" name="service_order_number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- Upload Original Data -->
+                        <div class="file-input mb-3">
+                            <label for="original_data"><em>Upload Original Data:</em></label>
+                            <input type="file" id="original_data" name="original_data" multiple class="form-control-file">
+                            <small class="form-text text-muted">Upload the last final test data. Location: {{ original_test_folder }}</small>
+                        </div>
+
+                        <!-- Upload Visual Inspection -->
+                        <div class="file-input mb-3">
+                            <label for="visual_inspection_data"><em>Upload Visual Inspection Data:</em></label>
+                            <input type="file" id="visual_inspection_data" name="visual_inspection_data" multiple class="form-control-file">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary btn-block">Create RMA Folder</button>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="alert alert-{{ messages[0][0] }} mt-3" role="alert">
+                    {% for category, message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </form>
+        </div>
+
+        <!-- Quote Form -->
+        <div class="tab-pane fade" id="otherTab" role="tabpanel" aria-labelledby="other-tab">
+            <h4>RMA Quote Form</h4>
+            <form action="/rma" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-body mb-3">
+                            <label for="bin_number"><em>BID Number:</em></label>
+                            <input type="text" id="bin_number" name="bin_number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6 align-self-end">
+                        <button type="submit" class="btn btn-primary btn-block">Pull RMA Data</button>
+                    </div>
+                </div>
+
+                <!-- Pulled Data -->
+                <div class="row mt-3">
+                    <div class="col">
+                        <pre class="bg-light p-3 border rounded small">
+BID Number: {{ bin_number }}
+Service Order #: {{ service_order_number }}
+RMA Number: {{ rma_sales_number }}       Customer Name: {{ customer_name }}
+Date Received: {{ date_received }}     Production Line: {{ production_line }}
+Customer P/N: {{ customer_pn }}       Customer PRR/MN/NC: {{ customer_prr }}
+Customer PO#: {{ customer_po }}
+                        </pre>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-success btn-block">Create RMA Quote</button>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="alert alert-{{ messages[0][0] }} mt-3" role="alert">
+                    {% for category, message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" alt="Image Preview" class="img-fluid" id="modalImage">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(function () {
+        $('.js-zoom').on('click', function () {
+            var imgSrc = $(this).data('img-src') || this.src;
+            $('#modalImage').attr('src', imgSrc);
+            $('#imageModal').modal('show');
+        });
+
+        // Optional: Enter-to-next-input
+        $('input').on('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const inputs = $('input');
+                const next = inputs.get(inputs.index(this) + 1);
+                if (next) next.focus();
+            }
+        });
+    });
+</script>
+{% endblock %}

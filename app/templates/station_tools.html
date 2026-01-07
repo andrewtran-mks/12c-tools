@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Station Tools{% endblock %}
+{% block content %}
+
+<div class="station-container">
+    <h1 class="text-center header-container mb-4">
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Company Logo" class="header-logo img-exsmall" />
+        Station Tools
+    </h1>
+</div>
+
+<!-- Nav Tabs -->
+<ul class="nav nav-tabs mb-4" id="subAssemblyTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="form-tab" data-toggle="tab" href="#formTab" role="tab" aria-controls="formTab" aria-selected="true">Sub-Assembly</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manualTab" role="tab" aria-controls="manualTab" aria-selected="false">Vendor Barcode Matching</a>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="subAssemblyTabContent">
+
+    <!-- Sub-Assembly Form -->
+    <div class="tab-pane fade show active" id="formTab" role="tabpanel" aria-labelledby="form-tab">
+        <div class="card shadow-sm p-4 mb-4">
+            <form action="{{ url_for('station_tools.station_tools') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="work_order_number" class="font-weight-bold"><em>Work Order Number:</em></label>
+                        <input type="text" id="work_order_number" name="work_order" class="form-control" placeholder="Enter work order">
+                    </div>
+
+                    <div class="col-md-4 mb-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Send</button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="part_number">Part Number</label>
+                        <input type="text" class="form-control" id="part_number"
+                               name="part_number" value="{{ part_number or '' }}">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="optic_sn">Optic Serial Number</label>
+                        <input type="text" class="form-control" id="optic_sn"
+                               name="optic_sn" value="{{ optic_sn or '' }}">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="lot_number">Lot Number</label>
+                        <input type="text" class="form-control" id="lot_number"
+                               name="lot_number" value="{{ lot_number or '' }}">
+                    </div>
+
+                </div>
+                {% if next_serial is not defined %}
+                <button type="submit" class="btn btn-primary">
+                    Generate barcode
+                </button>
+                {% endif %}
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Vendor Barcode Matching (placeholder form) -->
+    <div class="tab-pane fade" id="manualTab" role="tabpanel" aria-labelledby="manual-tab">
+        <div class="card shadow-sm p-4 mb-4">
+            <form action="{{ url_for('inventory.inventory') }}" method="POST" enctype="multipart/form-data">
+                <p class="text-muted">Coming soon...</p>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

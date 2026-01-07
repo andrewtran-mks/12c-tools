@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block title %}Chemical Inventory - Engineering Tools{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center header-container mb-4">
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Company Logo" class="header-logo img-exsmall" />
+        Chemical Inventory GUI
+    </h1>
+
+    <!-- Nav Tabs -->
+    <ul class="nav nav-tabs mb-4" id="invTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="form-tab" data-toggle="tab" href="#formTab" role="tab" aria-controls="formTab" aria-selected="true">Scanner</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manualTab" role="tab" aria-controls="manualTab" aria-selected="false">Manual</a>
+        </li>
+    </ul>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="alert alert-{{ messages[0][0] }} mt-3" role="alert">
+        {% for category, message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="invTabContent">
+
+        <!-- Scanner Tab -->
+        <div class="tab-pane fade show active" id="formTab" role="tabpanel" aria-labelledby="form-tab">
+            <div class="card shadow-sm p-4 mb-4">
+                <form action="{{ url_for('inventory.inventory') }}" method="POST" id="scan-form">
+                    <!-- Raw barcode capture (scanner sends Enter) -->
+                    <div class="form-group">
+                        <label for="barcode_raw" class="font-weight-bold">Scan Barcode</label>
+                        <input type="text" id="barcode_raw" name="barcode_raw" autocomplete="off" autofocus /><!--class="sr-only-input" -->
+
+                        <small class="form-text text-muted">After scanning, the fields below will auto-fill and the form will submit.</small>
+                    </div>
+
+                    <hr>
+
+                    <!-- Display-only fields (locked). -->
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="vendor_scanner"><em>Vendor:</em></label>
+                            <select id="vendor_scanner" name="vendor" class="form-control" required onchange="toggleOtherVendorInput('manual')">
+                                <option value="">-- Select a Vendor --</option>
+                                <option value="mavon">Mavon</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label><em>Part Number (12NC)</em></label>
+                            <input type="text" id="pn_display" class="form-control" readonly>
+                            <input type="hidden" id="part_number" name="part_number">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label><em>Certification Number (Cert)</em></label>
+                            <input type="text" id="cert_display" class="form-control" readonly>
+                            <input type="hidden" id="certification_number" name="certification_number">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label><em>Product / Name</em></label>
+                            <input type="text" id="name_display" class="form-control" readonly>
+                            <input type="hidden" id="name" name="name">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label><em>UID</em></label>
+                            <input type="text" id="uid_display" class="form-control" readonly>
+                            <input type="hidden" id="uid" name="uid">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label><em>CS</em></label>
+                            <input type="text" id="cs_display" class="form-control" readonly>
+                            <input type="hidden" id="cs" name="cs">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label><em>Batch Number (Batch)</em></label>
+                            <input type="text" id="batch_display" class="form-control" readonly>
+                            <input type="hidden" id="batch_number" name="batch_number">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label><em>Expiration (SL)</em></label>
+                            <input type="text" id="exp_display" class="form-control" readonly>
+                            <input type="hidden" id="expiration_date" name="expiration_date">
+                            <input type="hidden" id="exp_day" name="exp_day">
+                            <input type="hidden" id="exp_month" name="exp_month">
+                            <input type="hidden" id="exp_year" name="exp_year">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Manual Tab -->
+        <div class="tab-pane fade" id="manualTab" role="tabpanel" aria-labelledby="manual-tab">
+            <div class="card shadow-sm p-4 mb-4">
+                <form action="{{ url_for('inventory.inventory') }}" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-body">
+                                <label for="vendor_manual"><em>Vendor:</em></label>
+                                <select id="vendor_muanual" name="vendor" class="form-control" required onchange="toggleOtherVendorInput('manual')">
+                                    <option value="">-- Select a Vendor --</option>
+                                    <option value="mavon">Mavon</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-body">
+                                <label for="part_number_manual"><em>Part Number:</em></label>
+                                <select id="part_number_manual" name="part_number" class="form-control" required>
+                                    <option value="">-- Select a Part Number --</option>
+                                    <option value="4022.453.90481">4022.453.90481</option>
+                                    <option value="4022.489.00144">4022.489.00144</option>
+                                    <option value="4022.489.00035">4022.489.00035</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-body">
+                                <label for="certification_number_manual"><em>Certification Number:</em></label>
+                                <input type="text" id="certification_number_manual" name="certification_number" class="form-control" />
+                            </div>
+
+                            <div id="other-vendor-container-manual" class="form-group-body" style="display: none;">
+                                <label for="other_vendor_manual"><em>Please specify:</em></label>
+                                <input type="text" id="other_vendor_manual" name="other_vendor" class="form-control" placeholder="Enter vendor name" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group-body">
+                                <label><em>Expiration Date:</em></label>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <select name="exp_day" class="form-control" required>
+                                            <option value="">Day</option>
+                                            {% for d in range(1, 32) %}
+                                            <option value="{{ '%02d' % d }}">{{ '%02d' % d }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select name="exp_month" class="form-control" required>
+                                            <option value="">Month</option>
+                                            {% set month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] %}
+                                            {% for name in month_names %}
+                                            <option value="{{ '%02d' % loop.index }}">{{ name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select name="exp_year" class="form-control" required>
+                                            <option value="">Year</option>
+                                            {% for y in range(2024, 2041) %}
+                                            <option value="{{ y }}">{{ y }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <small class="form-text text-muted">Format: DDMMMYYYY (e.g., 09SEP2025)</small>
+                            </div>
+
+                            <div class="form-group-body">
+                                <label for="batch_number_manual"><em>Batch Number:</em></label>
+                                <input type="text" id="batch_number_manual" name="batch_number" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <button id="submit-btn" type="submit" class="btn btn-primary btn-block">Submit</button>
+            <button type="button" class="btn btn-danger btn-block mt-2" onclick="clearManualForm()">Clear</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .sr-only-input {
+        position: fixed;
+        left: -10000px;
+        top: -10000px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+</style>
+<!-- JS Scripts -->
+<script>
+    const scanInput = document.getElementById('barcode_raw');
+    const btnSubmit = document.getElementById('submit-btn');
+
+    function focusScanInput() { if (scanInput) scanInput.focus(); }
+    window.addEventListener('load', focusScanInput);
+    window.addEventListener('click', focusScanInput);
+    if (scanInput) {
+        scanInput.addEventListener('blur', focusScanInput);
+    }
+
+    function cleanValue(v) {
+        if (!v) return "";
+        v = v.trim();
+        v = v.replace(/[\?]+/g, "");
+        v = v.replace(/\s+/g, " ");
+        return v.trim();
+    }
+
+    function parseBarcode(raw) {
+        const parts = raw.split('@').filter(Boolean);
+        const data = {};
+        for (let i = 0; i < parts.length; i += 2) {
+            const kRaw = parts[i];
+            const vRaw = (parts[i + 1] || '').trim();
+
+            const k = kRaw.trim().toUpperCase();
+            const v = cleanValue(vRaw);
+
+            data[k] = v;
+        }
+        return data;
+    }
+
+    function parseSL(slRaw) {
+        if (!slRaw) return { exp_day: "", exp_month: "", exp_year: "", expiration_date: "" };
+
+        slRaw = slRaw.trim();
+        const m = slRaw.match(/^(\d{1,2})([A-Za-z]{3})(\d{4})$/);
+        if (!m) return { exp_day: "", exp_month: "", exp_year: "", expiration_date: "" };
+
+        const day = m[1];
+        const mon = m[2].toUpperCase();
+        const year = m[3];
+
+        const abbr = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        const monthIndex = abbr.indexOf(mon);
+        const month = monthIndex >= 0 ? (monthIndex + 1) : "";
+
+        return {
+            exp_day: day,
+            exp_month: String(month),
+            exp_year: year,
+            expiration_date: day + mon + year
+        };
+    }
+
+    function fillAndLock(data) {
+        const sl = parseSL(data["SL"]);
+
+        const map = [
+            ["pn_display", data["12NC"] || ""],
+            ["cert_display", data["CERT"] || ""],
+            ["batch_display", data["BATCH"] || ""],
+            ["name_display", document.getElementById('vendor_manual').value || ""],
+            ["uid_display", data["UID"] || ""],
+            ["cs_display", data["CS"] || ""],
+            ["exp_display", sl.expiration_date || ""],
+
+            ["part_number", data["12NC"] || ""],
+            ["certification_number", data["CERT"] || ""],
+            ["batch_number", data["BATCH"] || ""],
+            ["name", document.getElementById('vendor_manual').value || ""],
+            ["uid", data["UID"] || ""],
+            ["cs", data["CS"] || ""],
+            ["expiration_date", sl.expiration_date || ""],
+            ["exp_day", sl.exp_day || ""],
+            ["exp_month", sl.exp_month || ""],
+            ["exp_year", sl.exp_year || ""]
+        ];
+
+        for (const [id, val] of map) {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const scanInput = document.getElementById("barcode_raw");
+        const btnSubmit = document.getElementById("submit-btn");
+
+        function getActiveVendorValue() {
+            const activePane = document.querySelector(".tab-pane.show.active");
+            if (!activePane) return "";
+
+            const vendorSelect =
+                activePane.querySelector("select[name='vendor']") ||
+                activePane.querySelector("#vendor_scanner");
+
+            if (!vendorSelect) return "";
+            return (vendorSelect.value || "").trim();
+        }
+
+        if (scanInput) {
+            scanInput.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+
+
+                    const raw = scanInput.value.trim();
+                    if (!raw) return;
+
+                    // 1) Ensure vendor is selected in the active tab
+                    const vendorValue = getActiveVendorValue();
+                    if (!vendorValue) {
+                        alert("Please select a Vendor before scanning.");
+                        return;
+                    }
+
+
+                    // 2) Parse and fill fields
+                    const parsed = parseBarcode(raw);
+                    fillAndLock(parsed);
+
+
+                    // 3) Submit the active form
+                    if (btnSubmit) {
+                        btnSubmit.click();
+                    } else {
+                        const activePane = document.querySelector(".tab-pane.show.active");
+                        if (!activePane) return;
+                        const form = activePane.querySelector("form");
+                        if (form) form.submit();
+                    }
+                }
+            });
+        }
+    });
+
+    if (btnSubmit) {
+        btnSubmit.addEventListener('click', function () {
+            const activePane = document.querySelector('.tab-pane.show.active');
+            if (!activePane) return;
+            const form = activePane.querySelector('form');
+            if (form) form.submit();
+        });
+    }
+
+    window.addEventListener('load', () => {
+        if (scanInput) scanInput.focus();
+    });
+
+    function clearScannerForm() {
+        document.getElementById("vendor_manual").value = "";
+        document.getElementById("other_vendor_scanner").value = "";
+        document.getElementById("part_number_scanner").value = "";
+        document.getElementById("certification_number_scanner").value = "";
+        document.getElementById("expiration_date").value = "";
+        document.getElementById("batch_number_scanner").value = "";
+        document.getElementById("uid_number_scanner").value = "";
+        document.getElementById("other-vendor-container-scanner").style.display = "none";
+    }
+
+    function clearManualForm() {
+        document.getElementById("vendor_manual").value = "";
+        document.getElementById("other_vendor_manual").value = "";
+        document.getElementById("part_number_manual").value = "";
+        document.getElementById("certification_number_manual").value = "";
+        document.getElementsByName("exp_day")[0].value = "";
+        document.getElementsByName("exp_month")[0].value = "";
+        document.getElementsByName("exp_year")[0].value = "";
+        document.getElementById("batch_number_manual").value = "";
+        document.getElementById("other-vendor-container-manual").style.display = "none";
+    }
+
+    function toggleOtherVendorInput(tab) {
+        const vendorSelect = document.getElementById(`vendor_${tab}`);
+        const otherContainer = document.getElementById(`other-vendor-container-${tab}`);
+        if (vendorSelect.value === "other") {
+            otherContainer.style.display = "block";
+        } else {
+            otherContainer.style.display = "none";
+        }
+    }
+</script>
+
+{% if entry_id %}
+<script>
+    window.addEventListener("load", function () {
+        //Show popup with EntryID, same style as old GUI
+        alert("Use EntryID: {{ entry_id }} for SN");
+        //Clear the form inputs
+        const form = document.getElementById("scan-form");
+        if (form) {
+            form.reset();
+        }
+        //Clear any validation/error text if you have custom containers
+        const errorBoxes = document.querySelectorAll(".alert, .error-msg");
+        errorBoxes.forEach(el => el.remove());
+        //Put focus back on the scanner field so the operator can scan next bottle
+        const scanInput = document.getElementById("barcode_raw"); 
+        if (scanInput) {
+            scanInput.focus();
+        }
+    });
+</script>
+{% endif %}
+
+{% endblock %}

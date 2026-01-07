@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>verifyModule_P-[PNUMBER]</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 4px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        h2, h5 {
+            text-align: center;
+        }
+
+        h5 {
+            font-size: 15px;
+        }
+
+        .background-image {
+            background-image: url('/static/image/12C_OpticsBox.png');
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: 100% 100%;
+        }
+
+        .section {
+            border: 2px solid black;
+            margin: 7px 0;
+            padding: 3px;
+        }
+        /* Black border and transparent background for the first table */
+        .black-border-table {
+            background-color: transparent;
+        }
+
+            .black-border-table th, .black-border-table td {
+                border: 1px solid black;
+                background-color: transparent; /* Ensure cells also have transparent background */
+            }
+        /* Black border for cells with light grey background */
+        th, td {
+            background-color: #f0f0f0;
+            border: 1px solid black;
+        }
+            /* Ensure only cells with text have the background color and border */
+            td:empty, th:empty {
+                background-color: transparent;
+                border: 1px solid transparent;
+            }
+    </style>
+</head>
+<body>
+
+    <h2>Integration Verification Sheet</h2>
+
+    <table class="black-border-table">
+        <tr>
+            <th>P-Number:</th>
+            <td>[PNUMBER]</td>
+        </tr>
+        <tr>
+            <th>Date:</th>
+            <td>[TODAY]</td>
+        </tr>
+        <tr>
+            <th>Technician:</th>
+            <td>[USERINTIALS]</td>
+        </tr>
+        <tr>
+            <th>Fiber Bundle:</th>
+            <td>[FIBERBUNDLE]</td>
+        </tr>
+        <tr>
+            <th>Input Fiber HO:</th>
+            <td>[INPUTFIBERHO]</td>
+        </tr>
+        <tr>
+            <th>Input Fiber ZO:</th>
+            <td>[INPUTFIBERZO]</td>
+        </tr>
+    </table>
+
+    <div class="section">
+        <h5>HO</h5>
+
+        <table class="background-image">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>HO</th>
+                <td>[HOSN]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 12:</th>
+                <td>[HO][90095045-08]-[12]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 11:</th>
+                <td>[HO][90095045-07]-[11]</td>
+                <td></td>
+                <td></td>
+                <th>BF 12:</th>
+                <td>[HO][90095191%]-[12]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 10: </th>
+                <td>[HO][90095045-08]-[10] </td>
+                <td></td>
+                <td></td>
+                <th>BF 11:</th>
+                <td>[HO][90095191%]-[11] </td>
+                <td></td>
+                <td></td>
+                <th>M 12:</th>
+                <td>[HO][90095189-03]-[12] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 10: </th>
+                <td>[HO][90095191%]-[10]</td>
+                <td></td>
+                <td></td>
+                <th>M 11:</th>
+                <td>[HO][90095189-03]-[11] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 9:</th>
+                <td>[HO][90095045-07]-[9]</td>
+                <td></td>
+                <td></td>
+                <th>BF 9:</th>
+                <td>[HO][90095191%]-[9]</td>
+                <td></td>
+                <td></td>
+                <th>M 10:</th>
+                <td>[HO][90095189-03]-[10]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 8: </th>
+                <td>[HO][90095045-08]-[8] </td>
+                <td></td>
+                <td></td>
+                <th>BF 8:</th>
+                <td>[HO][90095191%]-[8] </td>
+                <td></td>
+                <td></td>
+                <th>M 9:</th>
+                <td>[HO][90095189-03]-[9]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>M 8:</th>
+                <td>[HO][90095189-03]-[8]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>OUT 7:</th>
+                <td>[HO][90095045-07]-[7]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>WF:</th>
+                <td>[HO][90095194]-[%]</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>IN:</th>
+                <td>[HO][90095047]-[%] </td>
+                <td></td>
+                <td></td>
+                <th>FM: </th>
+                <td>[HO][90095189-01]-[%] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>DI:</th>
+                <td>[HO][90095193]-[%] </td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 1:</th>
+                <td>[HO][90095191%]-[1] </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <th>OUT 1:</th>
+                <td>[HO][90095045-01]-[1] </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>M 4</th>
+                <td>[HO][90095189-02]-[4] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 4:</th>
+                <td>[HO][90095191%]-[4] </td>
+                <td></td>
+                <td></td>
+                <th>M 3:</th>
+                <td>[HO][90095189-02]-[3] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 4:</th>
+                <td>[HO][90095045-02]-[4] </td>
+                <td></td>
+                <td></td>
+                <th>BF 3:</th>
+                <td>[HO][90095191%]-[3]</td>
+                <td></td>
+                <td></td>
+                <th>M 2: </th>
+                <td>[HO][90095189-02]-[2]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 3:</th>
+                <td>[HO][90095045-01]-[3]</td>
+                <td></td>
+                <td></td>
+                <th>BF 2:</th>
+                <td>[HO][90095191%]-[2]</td>
+                <td></td>
+                <td></td>
+                <th>M 5:</th>
+                <td>[HO][90095189-02]-[5] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 2:</th>
+                <td>[HO][90095045-02]-[2]</td>
+                <td></td>
+                <td></td>
+                <th>BF 5:</th>
+                <td>[HO][90095191%]-[5]</td>
+                <td></td>
+                <td></td>
+                <th>M 6:</th>
+                <td>[HO][90095189-02]-[6] </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 5:</th>
+                <td>[HO][90095045-01]-[5]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 6:</th>
+                <td>[HO][90095191%]-[6]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            <tr>
+                <th>OUT 6: </th>
+                <td>[HO][90095045-02]-[6] </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h5>ZO</h5>
+
+        <table class="background-image">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>ZO</th>
+                <td>[ZOSN]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 12:</th>
+                <td>[ZO][90095045-08]-[12]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 11:</th>
+                <td>[ZO][90095045-07]-[11]</td>
+                <td></td>
+                <td></td>
+                <th>BF 12:</th>
+                <td>[ZO][90095191%]-[12]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 10: </th>
+                <td>[ZO][90095045-08]-[10] </td>
+                <td></td>
+                <td></td>
+                <th>BF 11:</th>
+                <td>[ZO][90095191%]-[11] </td>
+                <td></td>
+                <td></td>
+                <th>M 12:</th>
+                <td>[ZO][90095189-03]-[12] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 10: </th>
+                <td>[ZO][90095191%]-[10]</td>
+                <td></td>
+                <td></td>
+                <th>M 11:</th>
+                <td>[ZO][90095189-03]-[11] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 9:</th>
+                <td>[ZO][90095045-07]-[9]</td>
+                <td></td>
+                <td></td>
+                <th>BF 9:</th>
+                <td>[ZO][90095191%]-[9]</td>
+                <td></td>
+                <td></td>
+                <th>M 10:</th>
+                <td>[ZO][90095189-03]-[10]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 8: </th>
+                <td>[ZO][90095045-08]-[8] </td>
+                <td></td>
+                <td></td>
+                <th>BF 8:</th>
+                <td>[ZO][90095191%]-[8] </td>
+                <td></td>
+                <td></td>
+                <th>M 9:</th>
+                <td>[ZO][90095189-03]-[9]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>M 8:</th>
+                <td>[ZO][90095189-03]-[8]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>OUT 7:</th>
+                <td>[ZO][90095045-07]-[7]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>WF:</th>
+                <td>[ZO][90095194]-[%]</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>IN:</th>
+                <td>[ZO][90095047]-[%] </td>
+                <td></td>
+                <td></td>
+                <th>FM: </th>
+                <td>[ZO][90095189-01]-[%] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>DI:</th>
+                <td>[ZO][90095193]-[%] </td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 1:</th>
+                <td>[ZO][90095191%]-[1] </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <th>OUT 1:</th>
+                <td>[ZO][90095045-01]-[1] </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>M 4</th>
+                <td>[ZO][90095189-02]-[4] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 4:</th>
+                <td>[ZO][90095191%]-[4] </td>
+                <td></td>
+                <td></td>
+                <th>M 3:</th>
+                <td>[ZO][90095189-02]-[3] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 4:</th>
+                <td>[ZO][90095045-02]-[4] </td>
+                <td></td>
+                <td></td>
+                <th>BF 3:</th>
+                <td>[ZO][90095191%]-[3]</td>
+                <td></td>
+                <td></td>
+                <th>M 2: </th>
+                <td>[ZO][90095189-02]-[2]</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 3:</th>
+                <td>[ZO][90095045-01]-[3]</td>
+                <td></td>
+                <td></td>
+                <th>BF 2:</th>
+                <td>[ZO][90095191%]-[2]</td>
+                <td></td>
+                <td></td>
+                <th>M 5:</th>
+                <td>[ZO][90095189-02]-[5] </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 2:</th>
+                <td>[ZO][90095045-02]-[2]</td>
+                <td></td>
+                <td></td>
+                <th>BF 5:</th>
+                <td>[ZO][90095191%]-[5]</td>
+                <td></td>
+                <td></td>
+                <th>M 6:</th>
+                <td>[ZO][90095189-02]-[6] </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>OUT 5:</th>
+                <td>[ZO][90095045-01]-[5]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>BF 6:</th>
+                <td>[ZO][90095191%]-[6]</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            <tr>
+                <th>OUT 6: </th>
+                <td>[ZO][90095045-02]-[6] </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Engineering Tools{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <!-- Company Logo -->
+    <img src="/static/image/logo.png"
+         alt="Company Logo"
+         class="mb-4"
+         style="width: 120px; border-radius: 15px; border: 2px solid #fff; background:#fff; padding:5px;" />
+
+    <!-- Page Title -->
+    <h1 class="text-black mb-4">Engineering Tools Portal</h1>
+
+    <div class="row justify-content-center">
+        <!-- Inventory Tool Card -->
+        <div class="col-md-5 mb-4">
+            <div class="card p-4 shadow">
+                <i class="fas fa-vials fa-3x text-primary mb-3"></i>
+                <h3>Chemical Inventory</h3>
+                <p>Scan or manually enter chemical data, manage expiration dates, and maintain compliance.</p>
+                <a href="{{ url_for('inventory.inventory') }}" class="btn btn-primary btn-custom">Go to Chem Inventory</a>
+            </div>
+        </div>
+
+        <!-- RMA Tool Card -->
+        <div class="col-md-5 mb-4">
+            <div class="card p-4 shadow">
+                <i class="fas fa-folder-open fa-3x text-success mb-3"></i>
+                <h3>RMA Folder Tool</h3>
+                <p>Create and manage RMA folders, upload test data, and update database.</p>
+                <a href="{{ url_for('rma.rma') }}" class="btn btn-success btn-custom">Go to RMA Tool</a>
+            </div>
+        </div>
+
+        <!-- IVS Tool Card -->
+        <div class="col-md-5 mb-4">
+            <div class="card p-4 shadow">
+                <i class="fas fa-folder-open fa-3x text-warning mb-3"></i>
+                <h3>IVS Tool</h3>
+                <p>Create Integration Verification Sheet.</p>
+                <a href="{{ url_for('ivs.ivs_index') }}" class="btn btn-warning btn-custom">Go to IVS</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
