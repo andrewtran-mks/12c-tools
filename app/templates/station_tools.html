@@ -1,81 +1,294 @@
 {% extends "base.html" %}
+
 {% block title %}Station Tools{% endblock %}
+
 {% block content %}
 
 <div class="station-container">
     <h1 class="text-center header-container mb-4">
-        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Company Logo" class="header-logo img-exsmall" />
+        <img src="{{ url_for('static', filename='image/logo.png') }}"
+             alt="Company Logo"
+             class="header-logo img-exsmall" />
         Station Tools
     </h1>
 </div>
 
-<!-- Nav Tabs -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+
 <ul class="nav nav-tabs mb-4" id="subAssemblyTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="form-tab" data-toggle="tab" href="#formTab" role="tab" aria-controls="formTab" aria-selected="true">Sub-Assembly</a>
+        <a class="nav-link active"
+           id="form-tab"
+           data-toggle="tab"
+           href="#formTab"
+           role="tab">
+            Sub-Assembly
+        </a>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manualTab" role="tab" aria-controls="manualTab" aria-selected="false">Vendor Barcode Matching</a>
+        <a class="nav-link"
+           id="manual-tab"
+           data-toggle="tab"
+           href="#manualTab"
+           role="tab">
+            Vendor Barcode Matching
+        </a>
     </li>
 </ul>
 
-<!-- Tab Content -->
 <div class="tab-content" id="subAssemblyTabContent">
 
-    <!-- Sub-Assembly Form -->
-    <div class="tab-pane fade show active" id="formTab" role="tabpanel" aria-labelledby="form-tab">
+    <!-- Sub-Assembly Tab -->
+    <div class="tab-pane fade show active" id="formTab" role="tabpanel">
+
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ url_for('station_tools.station_tools') }}" method="POST" enctype="multipart/form-data">
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                        <label for="work_order_number" class="font-weight-bold"><em>Work Order Number:</em></label>
-                        <input type="text" id="work_order_number" name="work_order" class="form-control" placeholder="Enter work order">
+
+            <div class="form-group col-md-4 p-0">
+                <label for="tool_selector" class="font-weight-bold">
+                    Select Sub-Assembly Tool
+                </label>
+
+                <select id="tool_selector" class="form-control">
+                    <option value="workorder_tracker"
+                        {% if selected_tool == "workorder_tracker" %}selected{% endif %}>
+                        Workorder Tracker
+                    </option>
+
+                    <option value="barcode_generate"
+                        {% if selected_tool == "barcode_generate" %}selected{% endif %}>
+                        Barcode Generate
+                    </option>
+
+                    <option value="image_traceability"
+                        {% if selected_tool == "image_traceability" %}selected{% endif %}>
+                        Image Traceability
+                    </option>
+                </select>
+            </div>
+
+            <hr>
+
+            <!-- Workorder Tracker Section -->
+            <div id="workorder_tracker_section" class="tool-section">
+
+                <h4 class="mb-3">Workorder Tracker</h4>
+
+                <form action="{{ url_for('station_tools.station_tools') }}" method="POST">
+                    <input type="hidden" name="form_type" value="work_order">
+                    <input type="hidden" name="selected_tool" value="workorder_tracker">
+
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="work_order_number" class="font-weight-bold">
+                                <em>Work Order Number:</em>
+                            </label>
+
+                            <input type="text"
+                                   id="work_order_number"
+                                   name="work_order"
+                                   class="form-control"
+                                   placeholder="Enter work order">
+                        </div>
+
+                        <div class="col-md-4 mb-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Barcode Generate Section -->
+            <div id="barcode_generate_section" class="tool-section">
+
+                <h4 class="mb-3">Barcode Generate</h4>
+
+                <form action="{{ url_for('station_tools.station_tools') }}" method="POST">
+                    <input type="hidden" name="form_type" value="barcode_generate">
+                    <input type="hidden" name="selected_tool" value="barcode_generate">
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-3">
+                            <label for="work_order_barcode">Work Order</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="work_order_barcode"
+                                   name="work_order_barcode"
+                                   value="{{ work_order or '' }}">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="part_number">Part Number</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="part_number"
+                                   name="part_number"
+                                   value="{{ part_number or '' }}">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="optic_sn">Optic Serial Number</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="optic_sn"
+                                   name="optic_sn"
+                                   value="{{ optic_sn or '' }}">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="lot_number">Lot Number</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="lot_number"
+                                   name="lot_number"
+                                   value="{{ lot_number or '' }}">
+                        </div>
+
                     </div>
 
-                    <div class="col-md-4 mb-3 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">Send</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Generate Barcode
+                    </button>
+                </form>
+
+                {% if barcode_text %}
+                <hr>
+
+                <div class="alert alert-info mt-4">
+                    <h5>Verify Barcode Information</h5>
+
+                    <p><strong>Part Number:</strong> {{ part_number }}</p>
+                    <p><strong>Optic Serial Number:</strong> {{ optic_sn }}</p>
+                    <p><strong>Lot Number:</strong> {{ lot_number }}</p>
+                    <p><strong>Last Serial:</strong> {{ last_serial }}</p>
+                    <p><strong>Next Serial:</strong> {{ next_serial }}</p>
+                    <p><strong>Barcode Text:</strong> {{ barcode_text }}</p>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="part_number">Part Number</label>
-                        <input type="text" class="form-control" id="part_number"
-                               name="part_number" value="{{ part_number or '' }}">
-                    </div>
+                <form action="{{ url_for('station_tools.station_tools') }}" method="POST">
+                    <input type="hidden" name="form_type" value="barcode_confirm">
+                    <input type="hidden" name="selected_tool" value="barcode_generate">
 
-                    <div class="form-group col-md-4">
-                        <label for="optic_sn">Optic Serial Number</label>
-                        <input type="text" class="form-control" id="optic_sn"
-                               name="optic_sn" value="{{ optic_sn or '' }}">
-                    </div>
+                    <input type="hidden" name="work_order_barcode" value="{{ work_order }}">
+                    <input type="hidden" name="part_number" value="{{ part_number }}">
+                    <input type="hidden" name="optic_sn" value="{{ optic_sn }}">
+                    <input type="hidden" name="lot_number" value="{{ lot_number }}">
+                    <input type="hidden" name="proposed_serial" value="{{ next_serial }}">
 
-                    <div class="form-group col-md-4">
-                        <label for="lot_number">Lot Number</label>
-                        <input type="text" class="form-control" id="lot_number"
-                               name="lot_number" value="{{ lot_number or '' }}">
-                    </div>
-
-                </div>
-                {% if next_serial is not defined %}
-                <button type="submit" class="btn btn-primary">
-                    Generate barcode
-                </button>
+                    <button type="submit" class="btn btn-success">
+                        Confirm and Save Barcode
+                    </button>
+                </form>
                 {% endif %}
 
-            </form>
+                {% if recent_barcodes %}
+                <hr>
+
+                <h5 class="mt-4">Recent Barcode Records</h5>
+
+                <table class="table table-bordered table-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th>Part Number</th>
+                            <th>Serial Number</th>
+                            <th>Optic SN</th>
+                            <th>Lot Number</th>
+                            <th>Time Stamp</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        {% for row in recent_barcodes %}
+                        <tr>
+                            <td>{{ row.partNumber }}</td>
+                            <td>{{ row.serialNumber }}</td>
+                            <td>{{ row.opticSerialNumber }}</td>
+                            <td>{{ row.lotNumber }}</td>
+                            <td>{{ row.timeStamp }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+                {% endif %}
+
+            </div>
+
+            <!-- Image Traceability Section -->
+            <div id="image_traceability_section" class="tool-section">
+
+                <h4 class="mb-3">Image Traceability</h4>
+
+                <p class="text-muted">
+                    Coming soon...
+                </p>
+
+            </div>
+
         </div>
+
     </div>
 
-    <!-- Vendor Barcode Matching (placeholder form) -->
-    <div class="tab-pane fade" id="manualTab" role="tabpanel" aria-labelledby="manual-tab">
+    <!-- Vendor Barcode Matching Tab -->
+    <div class="tab-pane fade" id="manualTab" role="tabpanel">
+
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ url_for('inventory.inventory') }}" method="POST" enctype="multipart/form-data">
-                <p class="text-muted">Coming soon...</p>
-            </form>
+            <p class="text-muted">Coming soon...</p>
         </div>
+
     </div>
 
 </div>
+
 {% endblock %}
 
+{% block scripts %}
+
+<script>
+    function showSelectedTool() {
+        const selectedTool = document.getElementById("tool_selector").value;
+
+        const sections = document.querySelectorAll(".tool-section");
+
+        sections.forEach(function(section) {
+            section.style.display = "none";
+        });
+
+        const activeSection = document.getElementById(selectedTool + "_section");
+
+        if (activeSection) {
+            activeSection.style.display = "block";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        showSelectedTool();
+
+        document.getElementById("tool_selector").addEventListener("change", function() {
+            showSelectedTool();
+        });
+    });
+</script>
+
+{% endblock %}

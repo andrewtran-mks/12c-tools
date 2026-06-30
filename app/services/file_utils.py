@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 import shutil
-import shutil, sqlite3
+import shutil
 
 
 def create_rma_folder(*, template_dir: str, failure_analysis_dir: str, material_notification: str, rma_number: str, service_order_number: str, date_str: str) -> str:

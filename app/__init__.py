@@ -5,6 +5,7 @@ from flask import Flask
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
+    app.config["SECRET_KEY"] = "dev-secret-key"  # Override in production with env var or instance config
     # Default config
     app.config.from_object("app.config.Config")
 

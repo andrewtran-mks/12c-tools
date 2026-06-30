@@ -22,7 +22,7 @@ def run_fiber_query(db_path: str, optical_box_entry: str) -> str | None:
           AND boresightlog.parentserialnumber=?
         ORDER BY boresightlog.installid DESC, InputCollimationLog.Date DESC
         LIMIT 1
-        """
+"""     
     )
     try:
         cur.execute(sql, (optical_box_entry,))
@@ -81,70 +81,97 @@ def retrieve_component_tags(db_path: str, optical_box_ho_entry: str, optical_box
 
 
 # --- INSERT SystemRecord (station_tools.py) ---------------------------------
-
 def insert_station_record(work_order):
-    db_path = current_app.config["AZURE_CONNECTION_STRING"]
-    conn = pyodbc.connect(db_path)
-    cursor = conn.cursor()
+    if not work_order:
+        return {
+            "status": "error",
+            "message": "Work Order is required."
+        }
+
+    conn = None
 
     try:
-        # Check if this WorkOrder is already assigned
+        db_path = current_app.config["AZURE_CONNECTION_STRING"]
+        conn = pyodbc.connect(db_path)
+        cursor = conn.cursor()
+
+        # 1. Check duplicate WorkOrder
         cursor.execute(
             """
-            SELECT ProductionID, PairNumber
+            SELECT TOP 1 WorkOrder, ProductionID, PairNumber
             FROM SystemRecord
             WHERE WorkOrder = ?
             """,
-            (work_order,),
+            work_order
         )
-        row = cursor.fetchone()
-        if row:
-            prod_id, pair_num = row
+
+        existing = cursor.fetchone()
+
+        if existing:
             return {
                 "status": "existing",
-                "production_id": prod_id,
-                "pair_number": pair_num,
+                "message": f"WorkOrder {work_order} already exists.",
+                "work_order": existing.WorkOrder,
+                "production_id": existing.ProductionID,
+                "pair_number": existing.PairNumber,
             }
 
-        # Get next available placeholder (no WorkOrder yet)
+        # 2. Find next available empty slot
         cursor.execute(
             """
-            SELECT ProductionID, PairNumber
+            SELECT TOP 1 ProductionID, PairNumber
             FROM SystemRecord
             WHERE WorkOrder IS NULL OR WorkOrder = ''
             ORDER BY ProductionID, PairNumber
-            LIMIT 1
             """
         )
+
         slot = cursor.fetchone()
+
         if not slot:
-            # No empty slots left
             return {
                 "status": "no_slot",
-                "message": "No available placeholder rows for new WorkOrder."
+                "message": "No available empty slot found for this work order."
             }
 
-        prod_id, pair_num = slot
+        production_id = slot.ProductionID
+        pair_number = slot.PairNumber
 
-        # Assign this WorkOrder into that placeholder
+        # 3. Update that slot with the WorkOrder
         cursor.execute(
             """
             UPDATE SystemRecord
             SET WorkOrder = ?
             WHERE ProductionID = ?
+              AND PairNumber = ?
             """,
-            (work_order, prod_id),
+            work_order,
+            production_id,
+            pair_number
         )
+
         conn.commit()
 
         return {
             "status": "inserted",
-            "production_id": prod_id,
-            "pair_number": pair_num
+            "message": f"WorkOrder {work_order} assigned successfully.",
+            "production_id": production_id,
+            "pair_number": pair_number,
+        }
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        return {
+            "status": "error",
+            "message": str(e)
         }
 
     finally:
-        conn.close()
+        if conn:
+            conn.close()
+
 
 
 # --- GENERIC INSERT SQL WITH [keyword] PLACEHOLDERS --------------
